@@ -39,36 +39,4 @@ const List = () => {
      renderItem={({item}) => <ListItem singleMedia={item}/> } />;
 };
 
-
-const styles = StyleSheet.create({
-
-  itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 5,
-
-  },
-  thumbnail: {
-    width: 100,
-    height: 200,
-    /*marginRight: 10,*/
-    borderRadius: 5,
-  },
-  textContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    marginLeft: 10,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    /*marginBottom: 5, */
-  },
-  description: {
-    fontSize: 14,
-  },
-});
 export default List;
