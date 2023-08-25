@@ -1,98 +1,46 @@
-import {StyleSheet, SafeAreaView, Platform} from 'react-native';
+import {Platform, SafeAreaView, StyleSheet} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import List from './components/List';
-
-
-
-/*
-const App = () => {
- return (
-   <>
-      <View style={styles.container}>
-      <FlatList
-    data={mediaArray}
-    renderItem={({item}) => {
-      return (
-        <TouchableOpacity>
-          <Image
-            style={{width: 100, height: 100}}
-            source={{uri: item.thumbnails.w160}}
-          />
-          <View>
-            <Text>{item.title}</Text>
-            <Text>{item.description}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }}
-  />
-   <StatusBar style="auto"/>
-   </View>
-   </>
- );
-};
-
-*/
-/*
-const styles = StyleSheet.create({
- container: {
-   flex: 1,
-   backgroundColor: '#fff',
-   alignItems: 'center',
-   justifyContent: 'center',
- },
-});
-*/
-
-
 
 const App = () => {
   return (
     <>
-       <SafeAreaView style={styles.container}>
-        <List/>
-    <StatusBar style="auto"/>
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <List />
+      </SafeAreaView>
+      <StatusBar style="auto" />
     </>
   );
- };
+};
 
-
- const styles = StyleSheet.create({
-
-  itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 5,
-
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Platform.OS === 'android' ? 30 : 0,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  thumbnail: {
-    width: 100,
-    height: 200,
-    /*marginRight: 10,*/
-    borderRadius: 5,
+  TouchableOpacity: {
+    marginVertical: 2,
   },
-  textContainer: {
+  box: {
     flex: 1,
-    flexDirection: 'column',
-    marginLeft: 10,
+    flexDirection: 'row',
+    backgroundColor: 'lightgrey',
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    /*marginBottom: 5, */
+  Image: {
+    margin: 5,
+    width: '45%',
+    height: 'auto',
   },
-  description: {
-    fontSize: 14,
+  View: {
+    width: '50%',
+    margin: 5,
+  },
+  Text: {
+    height: 'auto',
+    width: '100%',
   },
 });
-
-
-
-
-
 
 export default App;
