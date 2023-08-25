@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+
+    
   },
   TouchableOpacity: {
     marginVertical: 2,
@@ -27,6 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: 'lightgrey',
+
   },
   Image: {
     margin: 5,
@@ -36,6 +39,7 @@ const styles = StyleSheet.create({
   View: {
     width: '50%',
     margin: 5,
+
   },
   Text: {
     height: 'auto',
