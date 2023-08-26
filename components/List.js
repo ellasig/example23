@@ -1,6 +1,5 @@
 import { FlatList } from "react-native";
 import ListItem from "./ListItem";
-import {StyleSheet, SafeAreaView, Platform} from 'react-native';
 
 
 const mediaArray = [
@@ -34,9 +33,12 @@ const mediaArray = [
 ];
 
 const List = () => {
-  return
-    <FlatList data={mediaArray}
-     renderItem={({item}) => <ListItem singleMedia={item}/> } />;
+  return (
+    <FlatList
+      data={mediaArray}
+      renderItem={({ item }) => <ListItem singleMedia={item} />}
+    />
+  );
 };
 
 export default List;

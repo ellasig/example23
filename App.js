@@ -26,12 +26,15 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'lightblue',
+    borderRadius: 5
   },
   Image: {
-    margin: 5,
+    margin: 10,
     width: '45%',
-    height: 'auto',
+    height: 200,
+    borderRadius: 5
+
   },
   View: {
     width: '50%',
