@@ -2,6 +2,9 @@ import {Platform, SafeAreaView, StyleSheet, View, ImageBackground, Text} from 'r
 import {StatusBar} from 'expo-status-bar';
 import List from './components/List';
 
+import {Settings} from 'react-native-feather';
+
+
 const App = () => {
   const image = { uri: 'http://placekitten.com/2039/1920' };
   return (
@@ -9,8 +12,16 @@ const App = () => {
       <View style={styles.container}>
         <ImageBackground style={styles.header} source={image}>
           <Text style={styles.headerTitle}>Cute Cats</Text>
+          <Settings
+            stroke="white"
+            fill="none"
+            width={32}
+            height={32}
+            style={styles.icon}
+          />
         </ImageBackground>
       </View>
+
 
       <List />
       <StatusBar style="auto" />
@@ -50,6 +61,11 @@ const styles = StyleSheet.create({
   TouchableOpacity: {
     marginVertical: 2,
     padding: 5,
+  },
+  icon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
 
 });
