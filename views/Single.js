@@ -1,13 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, SafeAreaView, StyleSheet} from 'react-native';
+import { Text, SafeAreaView, StyleSheet, Image} from 'react-native';
+import {mediaUrl} from '../utils/app-config';
+
 
 const Single = ({route, navigation}) => {
   const singleMedia = route.params;
   console.log('route params', route.params);
   return (
+
     <SafeAreaView style= {styles.container}>
+
+    <Image
+          style={{width: '60%', height: '60%'}}
+          source={{
+            uri: mediaUrl + singleMedia.filename
+          }}
+        />
       <Text>{singleMedia.title}</Text>
+      <Text>Description: {singleMedia.description}</Text>
+      <Text>user ID: {singleMedia.user_id}</Text>
+      <Text>time added: {singleMedia.time_added}</Text>
+
     </SafeAreaView>
   );
 };
