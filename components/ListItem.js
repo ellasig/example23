@@ -9,19 +9,24 @@ import {
 import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/app-config';
 
-const ListItem = (props) => {
+const ListItem = ({singleMedia, navigation}) => {
   return (
-    <TouchableOpacity style={styles.TouchableOpacity}>
+    <TouchableOpacity
+    onPress={() => {
+      console.log('touched', singleMedia.title);
+      navigation.navigate('Single', singleMedia);
+    }}
+    >
       <View style={styles.box}>
         <Image
           style={styles.Image}
           source={{
-            uri: mediaUrl + props.singleMedia.thumbnails.w160,
+            uri: mediaUrl + singleMedia.thumbnails.w160,
           }}
         />
         <View style={styles.View}>
-          <Text style={styles.Text}>{props.singleMedia.title}</Text>
-          <Text>{props.singleMedia.description}</Text>
+          <Text style={styles.Text}>{singleMedia.title}</Text>
+          <Text>{singleMedia.description}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -30,6 +35,7 @@ const ListItem = (props) => {
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
+  navigation: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
