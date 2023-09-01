@@ -13,7 +13,7 @@ import LoginForm from '../components/LoginForm';
 
 const Login = ({navigation}) => {
   // props is needed for navigation
-const {setIsLoggedIn} = useContext(MainContext);
+const {setIsLoggedIn, setUser} = useContext(MainContext);
 const {getUserByToken} = useUser();
 
 
@@ -25,6 +25,7 @@ const checkToken = async () => {
     console.log('userdata', userData);
     if (userData) {
       setIsLoggedIn(true);
+      setUser(userData);
     }
   } catch (error) {
     console.log('checkToken', error);
