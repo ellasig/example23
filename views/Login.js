@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Button,
+  KeyboardAvoidingView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { MainContext } from '../contexts/MainContext';
@@ -38,10 +39,11 @@ useEffect(() => {
 
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={styles.container}>
       <Text>Login</Text>
       <LoginForm/>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
