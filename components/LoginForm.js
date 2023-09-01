@@ -49,6 +49,7 @@ const LoginForm = () => {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            autoCapitalize="none"
           />
         )}
         name="username"
@@ -63,6 +64,7 @@ const LoginForm = () => {
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             placeholder="password"
+            secureTextEntry={true}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
