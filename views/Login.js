@@ -8,22 +8,26 @@ import {
 import PropTypes from 'prop-types';
 import { MainContext } from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAuthentication } from '../hooks/ApiHooks';
+import { useAuthentication, useUser } from '../hooks/ApiHooks';
 
 const Login = ({navigation}) => {
   // props is needed for navigation
 const {setIsLoggedIn} = useContext(MainContext);
 const {postLogin} = useAuthentication();
+const {getUserByToken} = useUser();
+
 
 const checkToken = async () => {
   try {
     const token = await AsyncStorage.getItem('userToken');
     //hardcoded token validation
-    if (token === 'abcde') {
+    const userData = await getUserByToken(token);
+    console.log('userdata', userData);
+    if (userData) {
       setIsLoggedIn(true);
     }
   } catch (error) {
-    console.error(error);
+    console.log('checkToken', error);
   }
 };
 
@@ -41,7 +45,7 @@ const logIn = async () => {
       console.log('login response', loginResponse);
       // TODO: fix dofetch() to display errors from API (e.g when bad user/pw)
       // use loginResponse.user for storing token & userdata
-        await AsyncStorage.setItem('userToken', 'abcde');
+        await AsyncStorage.setItem('userToken', loginResponse.token);
         setIsLoggedIn(true);
       } catch(error) {
         console.error(error);
