@@ -5,6 +5,8 @@ import {
   Text,
   Button,
   KeyboardAvoidingView,
+  TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { MainContext } from '../contexts/MainContext';
@@ -39,11 +41,15 @@ useEffect(() => {
 
 
   return (
+    <TouchableOpacity onPress={() => Keyboard.dismiss()}
+    style={{flex: 1}}
+    activeOpacity={1}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     style={styles.container}>
       <Text>Login</Text>
       <LoginForm/>
     </KeyboardAvoidingView>
+    </TouchableOpacity>
   );
 };
 
