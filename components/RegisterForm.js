@@ -2,13 +2,10 @@ import { View, Text, Button, TextInput } from 'react-native'
 import { useContext, useState } from 'react'
 import { useForm, Controller } from "react-hook-form"
 import { useAuthentication } from '../hooks/ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MainContext } from '../contexts/MainContext';
 
 
 const RegisterForm = () => {
   const {postUser} = useAuthentication();
-  const {setIsLoggedIn, setUser} = useContext(MainContext);
 
 
   const {
@@ -27,16 +24,12 @@ const RegisterForm = () => {
 
   const signIn = async (userData) => {
     try {
-      const registrationResponse = await postUser(userData);
-      console.log('registration response', registrationResponse);
-      if (registrationResponse && registrationResponse.token) {
-        console.log('login response', registrationResponse);
-        await AsyncStorage.setItem('userToken', registrationResponse.token);
-        setIsLoggedIn(true);
-        setUser(registrationResponse.user);
-      }
+      await postUser(userData);
+      alert('User created successfully');
+      reset();
     } catch (error) {
-      console.error(error);
+      console.log(error);
+
     }
   };
 
