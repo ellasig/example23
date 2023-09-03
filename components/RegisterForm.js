@@ -1,12 +1,120 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Button, TextInput } from 'react-native'
+import { useContext, useState } from 'react'
+import { useForm, Controller } from "react-hook-form"
+import { useAuthentication } from '../hooks/ApiHooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MainContext } from '../contexts/MainContext';
+
 
 const RegisterForm = () => {
+  const {postUser} = useAuthentication();
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
+
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+    reset,
+  } = useForm({
+    defaultValues: {
+      username: '',
+      password: '',
+      email: '',
+      full_name: '',
+    },
+  });
+
+  const signIn = async (userData) => {
+    try {
+      const registrationResponse = await postUser(userData);
+      console.log('registration response', registrationResponse);
+      if (registrationResponse && registrationResponse.token) {
+        console.log('login response', registrationResponse);
+        await AsyncStorage.setItem('userToken', registrationResponse.token);
+        setIsLoggedIn(true);
+        setUser(registrationResponse.user);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <View>
-      <Text>RegisterForm</Text>
-    </View>
-  )
-}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            placeholder="Username"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            autoCapitalize="none"
+          />
+        )}
+        name="username"
+      />
+      {errors.username && <Text>This is required.</Text>}
 
-export default RegisterForm
+      <Controller
+        control={control}
+        rules={{
+          maxLength: 100,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            placeholder="password"
+            secureTextEntry
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+          />
+        )}
+        name="password"
+      />
+
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            placeholder="email"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            autoCapitalize="none"
+          />
+        )}
+        name="email"
+      />
+      {errors.email && <Text>This is required.</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+          required: false,
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <TextInput
+            placeholder="full name"
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            autoCapitalize="none"
+          />
+        )}
+        name="full_name"
+      />
+
+      <Button title="Submit" onPress={handleSubmit(signIn)} />
+    </View>
+  );
+};
+
+export default RegisterForm;

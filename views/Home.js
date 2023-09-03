@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet } from 'react-native'
+import { Platform, SafeAreaView, StyleSheet } from 'react-native'
 import List from '../components/List'
 import PropTypes from 'prop-types';
 
