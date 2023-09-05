@@ -1,31 +1,48 @@
-import React, { useContext } from 'react'
-//import PropTypes from 'prop-types'
-import { SafeAreaView, StyleSheet, Text, Button } from 'react-native'
-import { MainContext } from '../contexts/MainContext';
+import React, {useContext, useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, Text, Button, Image, Platform} from 'react-native';
+import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTag} from '../hooks/ApiHooks';
+import { mediaUrl } from '../utils/app-config';
 
-
-
-const Profile = props => {
+const Profile = (props) => {
+  const [avatar, setAvatar] = useState('http://placekitten.com/640');
+  const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user} = useContext(MainContext);
   const logOut = async () => {
     console.log('profile, logout');
     try {
       await AsyncStorage.clear();
       setIsLoggedIn(false);
-    }catch(error) {
+    } catch (error) {
       console.error(error);
     }
   };
+
+  const loadAvatar = async () => {
+    try {
+      const avatars = await getFilesByTag('avatar_' + user.user_id);
+      setAvatar(mediaUrl + avatars.pop().filename);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadAvatar();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-    <Text>Profile view</Text>
-    <Button title="Log out" onPress={logOut}/>
-    <Text>{user.username}</Text>
-    <Text>{user.email}</Text>
-    <Text>{user.full_name}</Text>
+      <Text>Profile view</Text>
+      <Text>{user.username}</Text>
+      <Image style={styles.Image} source={{uri: avatar}} />
+      <Text>{user.email}</Text>
+      <Text>{user.full_name}</Text>
+      <Text>{user.user_id}</Text>
+      <Button title="Log out" onPress={logOut} />
     </SafeAreaView>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -34,8 +51,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
   TouchableOpacity: {
     marginVertical: 2,
@@ -44,7 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: 'lightgrey',
-
   },
   Image: {
     margin: 5,
@@ -54,7 +68,6 @@ const styles = StyleSheet.create({
   View: {
     width: '50%',
     margin: 5,
-
   },
   Text: {
     height: 'auto',
@@ -62,6 +75,6 @@ const styles = StyleSheet.create({
   },
 });
 
-Profile.propTypes = {}
+Profile.propTypes = {};
 
-export default Profile
+export default Profile;

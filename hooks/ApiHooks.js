@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {apiUrl} from '../utils/app-config';
-import { doFetch } from '../utils/functions';
+import {doFetch} from '../utils/functions';
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
@@ -14,7 +14,7 @@ const useMedia = () => {
           return fileData;
         }),
       );
-      //console.log(data);
+      // console.log(data);
       setMediaArray(mediaFiles);
     } catch (error) {
       console.error('loadMedia failed', error);
@@ -27,7 +27,6 @@ const useMedia = () => {
 
   return {mediaArray};
 };
-
 
 const useAuthentication = () => {
   const postLogin = async (user) => {
@@ -81,4 +80,15 @@ const useUser = () => {
   return {getUserByToken, postUser};
 };
 
-export {useMedia, useAuthentication, useUser};
+const useTag = () => {
+  const getFilesByTag = async (tag) => {
+    try {
+      return await doFetch(apiUrl + 'tags/' + tag);
+    } catch (error) {
+      throw new Error('getFilesByTag error', error.message);
+    }
+  };
+  return {getFilesByTag};
+};
+
+export {useMedia, useAuthentication, useUser, useTag};
