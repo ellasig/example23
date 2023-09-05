@@ -1,12 +1,9 @@
-import { View, Text, Button, TextInput } from 'react-native'
-import { useContext, useState } from 'react'
-import { useForm, Controller } from "react-hook-form"
-import { useAuthentication } from '../hooks/ApiHooks';
-
+import {View, Text, Button, TextInput} from 'react-native';
+import {useForm, Controller} from 'react-hook-form';
+import {useAuthentication} from '../hooks/ApiHooks';
 
 const RegisterForm = () => {
   const {postUser} = useAuthentication();
-
 
   const {
     control,
@@ -29,7 +26,6 @@ const RegisterForm = () => {
       reset();
     } catch (error) {
       console.log(error);
-
     }
   };
 
