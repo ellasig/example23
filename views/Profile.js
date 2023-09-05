@@ -1,12 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, Button, Image, Platform} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  Button,
+  Image,
+  Platform,
+} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
-import { mediaUrl } from '../utils/app-config';
+import {mediaUrl} from '../utils/app-config';
 
 const Profile = (props) => {
-  const [avatar, setAvatar] = useState('http://placekitten.com/640');
+  const [avatar, setAvatar] = useState();
   const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user} = useContext(MainContext);
   const logOut = async () => {
@@ -62,8 +69,8 @@ const styles = StyleSheet.create({
   },
   Image: {
     margin: 5,
-    width: '45%',
-    height: 'auto',
+    width: 150,
+    height: 200,
   },
   View: {
     width: '50%',
