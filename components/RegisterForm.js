@@ -1,6 +1,7 @@
-import {View, Text, Button, TextInput} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useAuthentication} from '../hooks/ApiHooks';
+import {Button, Input, Text, Card} from '@rneui/themed';
+
 
 const RegisterForm = () => {
   const {postUser} = useAuthentication();
@@ -30,14 +31,15 @@ const RegisterForm = () => {
   };
 
   return (
-    <View>
+    <Card>
+      <Card.Title>Register</Card.Title>
       <Controller
         control={control}
         rules={{
           required: true,
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
+          <Input
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -55,7 +57,7 @@ const RegisterForm = () => {
           maxLength: 100,
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
+          <Input
             placeholder="password"
             secureTextEntry
             onBlur={onBlur}
@@ -72,7 +74,7 @@ const RegisterForm = () => {
           required: true,
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
+          <Input
             placeholder="email"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -90,7 +92,7 @@ const RegisterForm = () => {
           required: false,
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
+          <Input
             placeholder="full name"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -102,7 +104,7 @@ const RegisterForm = () => {
       />
 
       <Button title="Submit" onPress={handleSubmit(signIn)} />
-    </View>
+    </Card>
   );
 };
 

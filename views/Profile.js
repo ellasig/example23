@@ -1,16 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  Button,
-  Image,
-  Platform,
-} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {mediaUrl} from '../utils/app-config';
+import {Card, Icon, Button} from '@rneui/themed';
+import {ListItem} from '@rneui/themed';
 
 const Profile = (props) => {
   const [avatar, setAvatar] = useState();
@@ -42,47 +36,28 @@ const Profile = (props) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Profile view</Text>
-      <Text>{user.username}</Text>
-      <Image style={styles.Image} source={{uri: avatar}} />
-      <Text>{user.email}</Text>
-      <Text>{user.full_name}</Text>
-      <Text>{user.user_id}</Text>
-      <Button title="Log out" onPress={logOut} />
-    </SafeAreaView>
+    <Card>
+      <Card.Title>{user.username}</Card.Title>
+      <Card.Image source={{uri: avatar}} />
+      <ListItem>
+        <Icon name="email" />
+        <ListItem.Title>{user.email}</ListItem.Title>
+      </ListItem>
+      <ListItem>
+        <Icon name="person" />
+        <ListItem.Title>{user.full_name}</ListItem.Title>
+      </ListItem>
+      <ListItem>
+        <ListItem.Title>{user.user_id}</ListItem.Title>
+      </ListItem>
+      <Card.Divider />
+      <Button title="Log out!" onPress={logOut}>
+        Log out!
+        <Icon name="logout" color="white" />
+      </Button>
+    </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: Platform.OS === 'android' ? 30 : 0,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  TouchableOpacity: {
-    marginVertical: 2,
-  },
-  box: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'lightgrey',
-  },
-  Image: {
-    margin: 5,
-    width: 150,
-    height: 200,
-  },
-  View: {
-    width: '50%',
-    margin: 5,
-  },
-  Text: {
-    height: 'auto',
-    width: '100%',
-  },
-});
 
 Profile.propTypes = {};
 

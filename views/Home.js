@@ -1,14 +1,14 @@
-import React from 'react'
-import { Platform, SafeAreaView, StyleSheet } from 'react-native'
-import List from '../components/List'
+import React from 'react';
+import {Platform, SafeAreaView, StyleSheet} from 'react-native';
+import List from '../components/List';
 import PropTypes from 'prop-types';
 
 const Home = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
-    <List navigation={navigation}/>
+      <List navigation={navigation} />
     </SafeAreaView>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -25,15 +25,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: 'lightblue',
-    borderRadius: 5
-
+    borderRadius: 5,
   },
   Image: {
     margin: 10,
     width: '45%',
     height: 200,
-    borderRadius: 5
-
+    borderRadius: 5,
   },
   View: {
     width: '50%',
@@ -46,7 +44,7 @@ const styles = StyleSheet.create({
 });
 
 Home.propTypes = {
-  navigation:PropTypes.object,
+  navigation: PropTypes.object,
 };
 
-export default Home
+export default Home;

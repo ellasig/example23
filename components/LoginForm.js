@@ -1,9 +1,10 @@
-import {View, Text, TextInput, Button} from 'react-native';
-import React, { useContext } from 'react';
-import { useForm, Controller } from "react-hook-form"
-import { useAuthentication } from '../hooks/ApiHooks';
+import {View, TextInput} from 'react-native';
+import React, {useContext} from 'react';
+import {useForm, Controller} from 'react-hook-form';
+import {useAuthentication} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { MainContext } from '../contexts/MainContext';
+import {MainContext} from '../contexts/MainContext';
+import {Button, Input, Text, Card} from '@rneui/themed';
 
 
 const LoginForm = () => {
@@ -13,39 +14,40 @@ const LoginForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
   } = useForm({
     defaultValues: {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     },
-  })
+  });
 
   const logIn = async (loginData) => {
     console.log('Login button pressed');
     try {
       const loginResponse = await postLogin(loginData);
-    console.log('login response', loginResponse);
-    // TODO: fix dofetch() to display errors from API (e.g when bad user/pw)
-    // use loginResponse.user for storing token & userdata
+      console.log('login response', loginResponse);
+      // TODO: fix dofetch() to display errors from API (e.g when bad user/pw)
+      // use loginResponse.user for storing token & userdata
       await AsyncStorage.setItem('userToken', loginResponse.token);
       setIsLoggedIn(true);
       setUser(loginResponse.user);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
-      //TODO: notify user about failed login?
+      // TODO: notify user about failed login?
     }
-};
+  };
 
   return (
-    <View>
+    <Card>
+      <Card.Title>Login</Card.Title>
       <Controller
         control={control}
         rules={{
           required: true,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -62,8 +64,8 @@ const LoginForm = () => {
         rules={{
           maxLength: 100,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
             placeholder="password"
             secureTextEntry={true}
             onBlur={onBlur}
@@ -75,7 +77,7 @@ const LoginForm = () => {
       />
 
       <Button title="Submit" onPress={handleSubmit(logIn)} />
-    </View>
+    </Card>
   );
 };
 
