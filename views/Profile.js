@@ -5,6 +5,8 @@ import {useTag} from '../hooks/ApiHooks';
 import {mediaUrl} from '../utils/app-config';
 import {Card, Icon, Button} from '@rneui/themed';
 import {ListItem} from '@rneui/themed';
+import ProfileForm from '../components/ProfileForm';
+import {ScrollView} from 'react-native';
 
 const Profile = (props) => {
   const [avatar, setAvatar] = useState();
@@ -36,26 +38,29 @@ const Profile = (props) => {
   }, []);
 
   return (
-    <Card>
-      <Card.Title>{user.username}</Card.Title>
-      <Card.Image source={{uri: avatar}} />
-      <ListItem>
-        <Icon name="email" />
-        <ListItem.Title>{user.email}</ListItem.Title>
-      </ListItem>
-      <ListItem>
-        <Icon name="person" />
-        <ListItem.Title>{user.full_name}</ListItem.Title>
-      </ListItem>
-      <ListItem>
-        <ListItem.Title>{user.user_id}</ListItem.Title>
-      </ListItem>
-      <Card.Divider />
-      <Button title="Log out!" onPress={logOut}>
-        Log out!
-        <Icon name="logout" color="white" />
-      </Button>
-    </Card>
+    <ScrollView>
+      <Card>
+        <Card.Title>{user.username}</Card.Title>
+        <Card.Image source={{uri: avatar}} />
+        <ListItem>
+          <Icon name="email" />
+          <ListItem.Title>{user.email}</ListItem.Title>
+        </ListItem>
+        <ListItem>
+          <Icon name="person" />
+          <ListItem.Title>{user.full_name}</ListItem.Title>
+        </ListItem>
+        <ListItem>
+          <ListItem.Title>{user.user_id}</ListItem.Title>
+        </ListItem>
+        <Card.Divider />
+        <Button title="Log out!" onPress={logOut}>
+          Log out!
+          <Icon name="logout" color="white" />
+        </Button>
+        <ProfileForm user={user} />
+      </Card>
+    </ScrollView>
   );
 };
 
