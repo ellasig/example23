@@ -3,7 +3,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {useAuthentication} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {Button, Input, Text, Card} from '@rneui/themed';
+import {Button, Input, Card} from '@rneui/themed';
 
 const LoginForm = () => {
   const {postLogin} = useAuthentication();
@@ -38,11 +38,11 @@ const LoginForm = () => {
 
   return (
     <Card>
-      <Card.Title>Login</Card.Title>
+      <Card.Title>Login form</Card.Title>
       <Controller
         control={control}
         rules={{
-          required: true,
+          required: {value: true, message: 'is required'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
@@ -51,24 +51,25 @@ const LoginForm = () => {
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
+            errorMessage={errors.username?.message}
           />
         )}
         name="username"
       />
-      {errors.username && <Text>This is required.</Text>}
 
       <Controller
         control={control}
         rules={{
-          maxLength: 100,
+          required: {value: true, message: 'is required'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            placeholder="password"
+            placeholder="Password"
             secureTextEntry={true}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            errorMessage={errors.password?.message}
           />
         )}
         name="password"

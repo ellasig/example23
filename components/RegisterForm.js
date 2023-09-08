@@ -1,6 +1,6 @@
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
-import {Button, Input, Text, Card} from '@rneui/themed';
+import {Button, Input, Card} from '@rneui/themed';
 
 const RegisterForm = () => {
   const {postUser, checkUsername} = useUser();
@@ -8,6 +8,7 @@ const RegisterForm = () => {
   const {
     control,
     handleSubmit,
+    getValues,
     formState: {errors},
     reset,
   } = useForm({
@@ -32,12 +33,12 @@ const RegisterForm = () => {
 
   return (
     <Card>
-      <Card.Title>Register</Card.Title>
+      <Card.Title>Register form</Card.Title>
       <Controller
         control={control}
         rules={{
-          required: true,
-          minLength: 3,
+          required: {value: true, message: 'is required'},
+          minLength: {value: 3, message: 'min length is 3 characters'},
           validate: async (value) => {
             try {
               const isAvailable = await checkUsername(value);
@@ -60,17 +61,12 @@ const RegisterForm = () => {
         )}
         name="username"
       />
-      {errors.username?.type === 'required' && <Text>This is required.</Text>}
-      {errors.username?.type === 'minLength' && (
-        <Text>min lenght is 3 characters</Text>
-      )}
-      <Text>{errors.username?.message}</Text>
 
       <Controller
         control={control}
         rules={{
-          required: true,
-          minLength: 3,
+          required: {value: true, message: 'is required'},
+          minLength: {value: 5, message: 'min length is 5 characters'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
@@ -79,16 +75,44 @@ const RegisterForm = () => {
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            errorMessage={errors.password?.message}
           />
         )}
         name="password"
       />
-      {errors.password && <Text>Password is required. </Text>}
 
       <Controller
         control={control}
         rules={{
-          required: true,
+          required: {value: true, message: 'is required'},
+          validate: (value) => {
+            const {password} = getValues();
+            // console.log('getValues password', password);
+            return value === password ? true : 'Passwords dont match!';
+          },
+        }}
+        render={({field: {onChange, onBlur, value}}) => (
+          <Input
+            placeholder="Confirm password"
+            secureTextEntry
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            errorMessage={errors.confirm_password?.message}
+          />
+        )}
+        name="confirm_password"
+      />
+
+      <Controller
+        control={control}
+        rules={{
+          required: {value: true, message: 'is required'},
+          pattern: {
+            // TODO: add better regexp for email
+            value: /@/,
+            message: 'must be a valid email',
+          },
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
@@ -97,16 +121,17 @@ const RegisterForm = () => {
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
+            errorMessage={errors.email?.message}
           />
         )}
         name="email"
       />
-      {errors.email && <Text>Email is required.</Text>}
 
       <Controller
         control={control}
         rules={{
           required: false,
+          minLength: {value: 3, message: 'min length is 3 characters'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
@@ -115,6 +140,7 @@ const RegisterForm = () => {
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
+            errorMessage={errors.full_name?.message}
           />
         )}
         name="full_name"
