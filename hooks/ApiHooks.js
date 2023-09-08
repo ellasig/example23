@@ -30,31 +30,15 @@ const useMedia = () => {
 
 const useAuthentication = () => {
   const postLogin = async (user) => {
-    console.log(user);
-    try {
-      return await doFetch(apiUrl + 'login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-    } catch (error) {
-      console.error('postLogin error', error);
-    }
-  };
-  const postUser = async (userData) => {
-    const options = {
+    return await doFetch(apiUrl + 'login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData),
-    };
-    return await doFetch(apiUrl + 'users', options);
+      body: JSON.stringify(user),
+    });
   };
-
-  return {postLogin, postUser};
+  return {postLogin};
 };
 
 const useUser = () => {

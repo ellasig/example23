@@ -47,7 +47,11 @@ const Login = ({navigation}) => {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {toggleRegister ? <RegisterForm /> : <LoginForm />}
+        {toggleRegister ? (
+          <RegisterForm setToggleRegister={setToggleRegister} />
+        ) : (
+          <LoginForm />
+        )}
         <Button
           onPress={() => {
             setToggleRegister(!toggleRegister);

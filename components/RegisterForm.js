@@ -1,8 +1,10 @@
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
 import {Button, Input, Card} from '@rneui/themed';
+import {Alert} from 'react-native';
+import {PropTypes} from 'prop-types';
 
-const RegisterForm = () => {
+const RegisterForm = ({setToggleRegister}) => {
   const {postUser, checkUsername} = useUser();
 
   const {
@@ -23,11 +25,13 @@ const RegisterForm = () => {
 
   const signIn = async (userData) => {
     try {
+      delete userData.confirm_password;
       await postUser(userData);
-      alert('User created successfully');
+      Alert.alert('Success', 'User created!');
+      setToggleRegister(false);
       reset();
     } catch (error) {
-      console.log(error);
+      Alert.alert('Error', error.message);
     }
   };
 
@@ -109,8 +113,8 @@ const RegisterForm = () => {
         rules={{
           required: {value: true, message: 'is required'},
           pattern: {
-            // TODO: add better regexp for email
-            value: /@/,
+            // TODO: add better regexp for email      ^([a-zA-Z0-9_-].?)+@([a-zA-Z0-9-].?)+[a-z]{2,8}$    ^\S+@\+\.\S+$
+            value: /\S+@\+\.\S+$/,
             message: 'must be a valid email',
           },
         }}
@@ -149,6 +153,10 @@ const RegisterForm = () => {
       <Button title="Register" onPress={handleSubmit(signIn)} />
     </Card>
   );
+};
+
+RegisterForm.propTypes = {
+  setToggleRegister: PropTypes.func,
 };
 
 export default RegisterForm;

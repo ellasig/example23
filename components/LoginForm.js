@@ -4,6 +4,7 @@ import {useAuthentication} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import {Button, Input, Card} from '@rneui/themed';
+import { Alert } from 'react-native';
 
 const LoginForm = () => {
   const {postLogin} = useAuthentication();
@@ -31,8 +32,7 @@ const LoginForm = () => {
       setIsLoggedIn(true);
       setUser(loginResponse.user);
     } catch (error) {
-      console.error(error);
-      // TODO: notify user about failed login?
+      Alert.alert('Error', 'User cant log in!');
     }
   };
 
