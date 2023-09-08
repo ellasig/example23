@@ -1,7 +1,7 @@
 import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/app-config';
-import {Avatar, Button, ListItem as RNEListItem} from '@rneui/themed';
+import {Avatar, ListItem as RNEListItem} from '@rneui/themed';
 
 const ListItem = ({singleMedia, navigation}) => {
   return (
