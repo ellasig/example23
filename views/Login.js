@@ -1,7 +1,5 @@
 import React, {useContext, useEffect} from 'react';
 import {
-  StyleSheet,
-  Text,
   KeyboardAvoidingView,
   TouchableOpacity,
   Keyboard,

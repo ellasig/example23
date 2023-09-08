@@ -2,7 +2,6 @@ import {useForm, Controller} from 'react-hook-form';
 import {useAuthentication} from '../hooks/ApiHooks';
 import {Button, Input, Text, Card} from '@rneui/themed';
 
-
 const RegisterForm = () => {
   const {postUser} = useAuthentication();
 

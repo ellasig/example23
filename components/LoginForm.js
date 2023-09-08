@@ -1,11 +1,9 @@
-import {View, TextInput} from 'react-native';
 import React, {useContext} from 'react';
 import {useForm, Controller} from 'react-hook-form';
 import {useAuthentication} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import {Button, Input, Text, Card} from '@rneui/themed';
-
 
 const LoginForm = () => {
   const {postLogin} = useAuthentication();
