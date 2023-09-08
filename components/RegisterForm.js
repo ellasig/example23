@@ -1,10 +1,9 @@
 import {useForm, Controller} from 'react-hook-form';
-import {useAuthentication} from '../hooks/ApiHooks';
+import {useUser} from '../hooks/ApiHooks';
 import {Button, Input, Text, Card} from '@rneui/themed';
 
-
 const RegisterForm = () => {
-  const {postUser} = useAuthentication();
+  const {postUser, checkUsername} = useUser();
 
   const {
     control,
@@ -18,6 +17,7 @@ const RegisterForm = () => {
       email: '',
       full_name: '',
     },
+    mode: 'onBlur',
   });
 
   const signIn = async (userData) => {
@@ -37,6 +37,16 @@ const RegisterForm = () => {
         control={control}
         rules={{
           required: true,
+          minLength: 3,
+          validate: async (value) => {
+            try {
+              const isAvailable = await checkUsername(value);
+              console.log('username validator', value, isAvailable);
+              return isAvailable ? isAvailable : 'Username taken';
+            } catch (error) {
+              console.error(error);
+            }
+          },
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
@@ -45,20 +55,26 @@ const RegisterForm = () => {
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
+            errorMessage={errors.username?.message}
           />
         )}
         name="username"
       />
-      {errors.username && <Text>This is required.</Text>}
+      {errors.username?.type === 'required' && <Text>This is required.</Text>}
+      {errors.username?.type === 'minLength' && (
+        <Text>min lenght is 3 characters</Text>
+      )}
+      <Text>{errors.username?.message}</Text>
 
       <Controller
         control={control}
         rules={{
-          maxLength: 100,
+          required: true,
+          minLength: 3,
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            placeholder="password"
+            placeholder="Password"
             secureTextEntry
             onBlur={onBlur}
             onChangeText={onChange}
@@ -67,6 +83,7 @@ const RegisterForm = () => {
         )}
         name="password"
       />
+      {errors.password && <Text>Password is required. </Text>}
 
       <Controller
         control={control}
@@ -75,7 +92,7 @@ const RegisterForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            placeholder="email"
+            placeholder="Email"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -84,7 +101,7 @@ const RegisterForm = () => {
         )}
         name="email"
       />
-      {errors.email && <Text>This is required.</Text>}
+      {errors.email && <Text>Email is required.</Text>}
 
       <Controller
         control={control}
@@ -93,7 +110,7 @@ const RegisterForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            placeholder="full name"
+            placeholder="Full name"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -103,7 +120,7 @@ const RegisterForm = () => {
         name="full_name"
       />
 
-      <Button title="Submit" onPress={handleSubmit(signIn)} />
+      <Button title="Register" onPress={handleSubmit(signIn)} />
     </Card>
   );
 };
