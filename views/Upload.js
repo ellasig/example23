@@ -1,20 +1,24 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, Card, Input} from '@rneui/themed';
-import {StyleSheet} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {placeholderImage} from '../utils/app-config';
 import {Video} from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMedia} from '../hooks/ApiHooks';
+import PropTypes from 'prop-types';
+import {MainContext} from '../contexts/MainContext';
 
-const Upload = () => {
+const Upload = ({navigation}) => {
+  const {update, setUpdate} = useContext(MainContext);
   const [image, setImage] = useState(placeholderImage);
   const [type, setType] = useState('image');
   const {postMedia, loading} = useMedia();
 
   const {
     control,
+    reset,
     handleSubmit,
     formState: {errors},
   } = useForm({
@@ -22,6 +26,7 @@ const Upload = () => {
       title: '',
       description: '',
     },
+    mode: 'onBlur',
   });
 
   const upload = async (uploadData) => {
@@ -44,9 +49,25 @@ const Upload = () => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postMedia(formData, token);
       console.log('lataus', response);
+      setUpdate(!update);
+      Alert.alert('Upload', `${response.message} {id: ${response.file_id}}`, [
+        {
+          text: 'Ok',
+          onPress: () => {
+            resetForm();
+            navigation.navigate('Home');
+          },
+        },
+      ]);
     } catch (error) {
       console.log(error.message);
     }
+  };
+
+  const resetForm = () => {
+    setImage(placeholderImage);
+    setType('image');
+    reset();
   };
 
   const pickImage = async () => {
@@ -56,7 +77,10 @@ const Upload = () => {
       aspect: [4, 3],
     });
 
-    console.log(result);
+    // purkka key cancelled
+
+    // console.log(result);
+    // delete result.cancelled;
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -115,7 +139,15 @@ const Upload = () => {
       />
 
       <Button title="Choose Media" onPress={pickImage} />
-      <Button loading={loading} title="Upload" onPress={handleSubmit(upload)} />
+      <Button title="Reset" type="clear" color={'error'} onPress={resetForm} />
+      <Button
+        loading={loading}
+        disabled={
+          image == placeholderImage || errors.description || errors.title
+        }
+        title="Upload"
+        onPress={handleSubmit(upload)}
+      />
     </Card>
   );
 };
@@ -129,5 +161,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
 });
+
+Upload.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Upload;
