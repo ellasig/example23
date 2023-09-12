@@ -4,4 +4,6 @@ const mediaUrl = 'https://media.mw.metropolia.fi/wbma/uploads/';
 
 const placeholderImage = 'https://place-hold.it/300x200&text=Choose';
 
-export {apiUrl, mediaUrl, placeholderImage};
+const appId = 'kolefle';
+
+export {apiUrl, mediaUrl, placeholderImage, appId};
